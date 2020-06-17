@@ -1,5 +1,6 @@
 import sqlite3
 from sqlite3 import Error
+
 DATABASE = 'solutions.db'
 
 
@@ -24,7 +25,7 @@ def create_table():
     con = create_connection(DATABASE)
     cur = con.cursor()
     cur.execute("DROP TABLE IF EXISTS calculations")
-    cur.execute("CREATE TABLE calculations(created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP PRIMARY KEY, message text NOT NULL)")
+    cur.execute("CREATE TABLE calculations(transaction_id INTEGER PRIMARY KEY AUTOINCREMENT, message text NOT NULL)")
     con.commit()
 
 def insert(result):
@@ -37,6 +38,6 @@ def insert(result):
 def select_all_calculations():
     con = create_connection(DATABASE)
     cur = con.cursor()
-    cur.execute("select message from calculations order by created_at desc limit 10")
+    cur.execute("select message from calculations order by transaction_id desc limit 10")
     rows = cur.fetchall()
     return rows
