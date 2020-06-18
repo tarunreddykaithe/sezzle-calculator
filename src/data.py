@@ -25,19 +25,25 @@ def create_table():
     con = create_connection(DATABASE)
     cur = con.cursor()
     cur.execute("DROP TABLE IF EXISTS calculations")
-    cur.execute("CREATE TABLE calculations(transaction_id INTEGER PRIMARY KEY AUTOINCREMENT, message text NOT NULL)")
+    cur.execute("CREATE TABLE calculations(operation_id INTEGER PRIMARY KEY AUTOINCREMENT, operation text NOT NULL)")
     con.commit()
 
 def insert(result):
-    
-    con = create_connection(DATABASE)
-    cur = con.cursor()
-    cur.execute("INSERT INTO calculations (message) VALUES (?)", (result,))
-    con.commit()
+    try: 
+        con = create_connection(DATABASE)
+        cur = con.cursor()
+        cur.execute(f"INSERT INTO calculations (operation) VALUES (?)",(result.get('operation'),))
+        con.commit()
+    except Error as e:
+        print(e)
 
 def select_all_calculations():
     con = create_connection(DATABASE)
-    cur = con.cursor()
-    cur.execute("select message from calculations order by transaction_id desc limit 10")
-    rows = cur.fetchall()
-    return rows
+    try:
+        cur = con.cursor()
+        cur.execute("select operation from calculations order by operation_id desc limit 10")
+        rows = cur.fetchall()
+        result = [{'operation':row[0]} for row in rows ]
+        return result
+    except Error as e:
+        print(e)
