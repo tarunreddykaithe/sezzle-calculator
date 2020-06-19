@@ -18,9 +18,9 @@ def create_connection(db_file):
 
     return conn
 
-def create_table():
+def create_calculations_table():
     """
-    create table with created_at and message columns
+    This method drops if there is a table and creates a new calculations table with created_at and message columns.
     """
     con = create_connection(DATABASE)
     cur = con.cursor()
@@ -28,22 +28,32 @@ def create_table():
     cur.execute("CREATE TABLE calculations(operation_id INTEGER PRIMARY KEY AUTOINCREMENT, operation text NOT NULL)")
     con.commit()
 
-def insert(result):
+def store_operation(row):
+    """
+    Stores operation in calculations table
+    """
     try: 
         con = create_connection(DATABASE)
         cur = con.cursor()
-        cur.execute(f"INSERT INTO calculations (operation) VALUES (?)",(result.get('operation'),))
+        cur.execute(f"INSERT INTO calculations (operation) VALUES (?)",(row.get('operation'),))
         con.commit()
     except Error as e:
         print(e)
 
-def select_all_calculations():
+def list_operations():
+    """
+    Retreives last 10 operations of calculations table.
+    """
     con = create_connection(DATABASE)
     try:
         cur = con.cursor()
         cur.execute("select operation from calculations order by operation_id desc limit 10")
         rows = cur.fetchall()
-        result = [{'operation':row[0]} for row in rows ]
+        result=[]
+        for row in rows:
+            result.append({
+                'operation':row[0]
+                } )
         return result
     except Error as e:
         print(e)
