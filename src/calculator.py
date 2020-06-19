@@ -10,7 +10,7 @@ api = Api(app)
 
 @app.route('/')
 def home():
-    return "Sezzle Calculator"
+    return render_template('index.html')
 
 class History(Resource):
     """
@@ -26,26 +26,33 @@ class Calculate(Resource):
     POST method to calculate the operation, store in the database and return the result
     """
     def post(self):
-        problem=request.form['data']
-        if problem == "":
-            return "Enter value",422   
-        #regular expression to validate given input is correct or not
-        regex = r"^\s*([-+]?)(\d*\.?\d*)(?:\s*([-+*\/])\s*((?:\s[-+])?\d*\.?\d*)\s*)*$"
-        matches = re.match(regex, problem)
-
-        if not matches:
-            return "Enter a valid text. Format 3*4",422
         try:
+            if request.is_json:
+                problem = request.get_json().get('operation')
+            else:
+                problem=request.form['operation']
+            print(problem)
+            if problem == "":
+                return "Enter value",422   
+            #regular expression to validate given input is correct or not
+            regex = r"^\s*([-+]?)(\(?\d*\.?\d*\)?)(?:\s*([-+*\/%])\s*((?:\s[-+])?\(?\d*\.?\d*\)?)\s*)*$"
+            matches = re.match(regex, problem)
+
+            if not matches:
+                return "Enter a valid text. Format 3*4",422
+
             #calculates the operation
             result=str(eval(problem))
+            print(result)
             store_operation({'operation': problem + " = "+ result})
             return result, 201     
 
         except ZeroDivisionError:
             store_operation({'operation': problem + " = Infinity"})
             return "Infinity", 201
+            
         except KeyError:
-            return "Enter valid numbers",422
+            return "Enter valid data",422
 
 api.add_resource(History, '/history')
 api.add_resource(Calculate, '/calculate')
