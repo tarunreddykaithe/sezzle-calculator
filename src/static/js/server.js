@@ -4,7 +4,7 @@ $("#document").ready(function(){
     function load() {
         $.ajax({ 
             type: "GET",
-            url: "http://127.0.0.1:8080/history",
+            url: '/history',
             ifModified:true,     
             success: function (response) {
                 var html = '<h2>Recent Operations</h2>';
@@ -28,7 +28,7 @@ $("#document").ready(function(){
     $("#send").click(function(){
         var message = $('#screen').val();
         $.ajax({
-            url: "http://127.0.0.1:8080/calculate",
+            url: '/calculate',
             type: "POST",
             data: {"operation" : message},
             error: function(error) {
