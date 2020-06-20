@@ -12,7 +12,7 @@ Deployed on EC2 instance using docker. Link: [Sezzle-Calulator Webapp](http://52
 Both normal data and JSON data can be used in POST method to calculate given problem and GET method to get Top 10 calculations.
 ```
 curl http://52.53.191.80:8080/calculate -X POST -d "operation=3 * 0"
-curl http://52.53.191.80:8080/calculate -X POST -d '{"operation":"3 * 0"}' -H "Accept: application/json" 
+curl http://52.53.191.80:8080/calculate -X POST -d '{"operation":"3 * 0"}' -H "Content-Type: application/json" 
 
 curl http://52.53.191.80:8080/history -X GET
 ```
