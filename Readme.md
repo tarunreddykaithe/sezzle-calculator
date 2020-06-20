@@ -17,7 +17,7 @@ curl http://52.53.191.80:8080/calculate -X POST -d {"operation":"3 * 0"}
 
 curl http://52.53.191.80:8080/history -X GET
 ```
-Note: For Live Webapp use "52.53.191.80" instead of localhost.
+Note: If deployed in local computer, use "localhost" instead of 52.53.191.80.
 
 ## Instructions
 
