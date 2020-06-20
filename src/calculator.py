@@ -31,7 +31,6 @@ class Calculate(Resource):
                 problem = request.get_json().get('operation')
             else:
                 problem=request.form['operation']
-            print(problem)
             if problem == "":
                 return "Enter value",422   
             #regular expression to validate given input is correct or not
@@ -43,7 +42,6 @@ class Calculate(Resource):
 
             #calculates the operation
             result=str(eval(problem))
-            print(result)
             store_operation({'operation': problem + " = "+ result})
             return result, 201     
 
@@ -51,7 +49,7 @@ class Calculate(Resource):
             store_operation({'operation': problem + " = Infinity"})
             return "Infinity", 201
             
-        except KeyError:
+        except (SyntaxError, TypeError, KeyError):
             return "Enter valid data",422
 
 api.add_resource(History, '/history')
