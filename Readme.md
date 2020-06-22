@@ -6,7 +6,7 @@ A Calculator Webapp UI which  stores calculations as they happen and shares thos
 
 **Live Web App:**
 
-Deployed on EC2 instance using docker. Link: [Sezzle-Calulator Webapp](http://52.53.191.80:8080/)
+Deployed on EC2 instance using docker. Link: [Sezzle-Calulator Webapp](http://ec2-52-53-191-80.us-west-1.compute.amazonaws.com:8080/)
 
 **Api calls:**
 Both normal data and JSON data can be used in POST method to calculate given problem and GET method to get Top 10 calculations.
