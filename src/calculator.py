@@ -1,9 +1,12 @@
 from flask import (Flask, jsonify, request, abort, render_template)
 from flask_restful import Resource, Api
 import sqlite3 as sql
-import re
+import logging, re
 
 from data import *
+
+logger = logging.getLogger()
+logger.setLevel(logging.INFO)
 
 app = Flask(__name__)
 api = Api(app)
@@ -46,10 +49,11 @@ class Calculate(Resource):
             return result, 201     
 
         except ZeroDivisionError:
-            store_operation({'operation': problem + " = Infinity"})
+            store_operation({'operation': problem + " = Infinity"})            
             return "Infinity", 201
             
-        except (SyntaxError, TypeError, KeyError):
+        except (SyntaxError, TypeError, KeyError) as e:
+            logger.error("Error is :"+e)
             return "Enter valid data",422
 
 api.add_resource(History, '/history')
