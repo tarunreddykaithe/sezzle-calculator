@@ -18,7 +18,7 @@ def create_connection(db_file):
     try:
         conn = sqlite3.connect(db_file)
     except Error as e:
-        logger.error("Unable to connect to Sqlite. Error is: "+e)
+        logger.error("Unable to connect to Sqlite. Error is: "+str(e))
 
     return conn
 
@@ -42,7 +42,7 @@ def store_operation(row):
         cur.execute(f"INSERT INTO calculations (operation) VALUES (?)",(row.get('operation'),))
         con.commit()
     except Error as e:
-        logger.error("Unable to add operations to  table. Error is: "+e)
+        logger.error("Unable to add operations to  table. Error is: "+str(e))
 
 def list_operations():
     """
@@ -60,4 +60,4 @@ def list_operations():
                 } )
         return result
     except Error as e:
-        logger.error("Unable to retrive operations from Sqlite. Error is: "+e)
+        logger.error("Unable to retrive operations from Sqlite. Error is: "+str(e))

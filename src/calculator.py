@@ -53,7 +53,7 @@ class Calculate(Resource):
             return "Infinity", 201
             
         except (SyntaxError, TypeError, KeyError) as e:
-            logger.error("Error is :"+e)
+            logger.error("Error is :"+str(e))
             return "Enter valid data",422
 
 api.add_resource(History, '/history')
