@@ -43,9 +43,10 @@ class Calculate(Resource):
             if not matches:
                 return "Enter a valid text. Format 3*4",422
 
-            #calculates the operation
-            result=str(eval(problem))
-            store_operation({'operation': problem + " = "+ result})
+            #calculates the operation and formats the result
+            result = ('%.4f' % eval(problem)).rstrip('0').rstrip('.')
+            
+            store_operation({'operation': problem + " = "+ str(result)})
             return result, 201     
 
         except ZeroDivisionError:
