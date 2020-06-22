@@ -3,7 +3,7 @@ from flask_restful import Resource, Api
 import sqlite3 as sql
 import logging, re
 
-from data import *
+from model import *
 
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
